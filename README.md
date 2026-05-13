@@ -1,1 +1,0 @@
-# chatboost-widget
