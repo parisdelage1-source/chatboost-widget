@@ -1,3 +1,4 @@
+
 const express = require('express');
 const cors = require('cors');
 
@@ -6,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 // ============================================
-// PROXY OPENAI — Clé API cachée côté serveur
+// PROXY GROQ — Clé API cachée côté serveur
 // ============================================
 app.post('/chat', async (req, res) => {
   const { messages } = req.body;
@@ -16,14 +17,14 @@ app.post('/chat', async (req, res) => {
   }
 
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'llama3-8b-8192',
         messages,
         max_tokens: 200,
         temperature: 0.7
