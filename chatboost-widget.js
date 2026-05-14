@@ -5,7 +5,7 @@
   // ============================================
 
   const CONFIG = {
-    apiKey: window.CHATBOOST_KEY || '',
+    serverUrl: window.CHATBOOST_SERVER || 'https://chatboost-server.onrender.com',
     botName: window.CHATBOOST_BOT_NAME || 'Alex',
     storeName: window.CHATBOOST_STORE || 'Votre Boutique',
     primaryColor: '#0a0a0a',
@@ -535,20 +535,16 @@ CONTACT :
         .replace('{STORE_NAME}', CONFIG.storeName)
         .replace('{STORE_INFO}', CONFIG.storeInfo);
 
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const response = await fetch(`${CONFIG.serverUrl}/chat`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${CONFIG.apiKey}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
           messages: [
             { role: 'system', content: systemPrompt },
             ...conversationHistory
-          ],
-          max_tokens: 200,
-          temperature: 0.7
+          ]
         })
       });
 
